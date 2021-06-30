@@ -29,6 +29,16 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new category
+  if (!req.body.category_name) {
+    res.status(400).json({message: "must contain data to update!"})
+    return
+  }
+  Category.create(req.body)
+    .then(data => {
+      res.status(200).json({message: `${req.body.category_name} added!`})
+    }).catch(err => {
+      res.status(400).json(err);
+    })
 });
 
 router.put('/:id', (req, res) => {

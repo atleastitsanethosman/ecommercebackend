@@ -24,11 +24,20 @@ router.get('/:id', (req, res) => {
   .catch((err) => {
   res.status(500).json(err);
   })
-
 });
 
 router.post('/', (req, res) => {
   // create a new tag
+  if (!req.body.tag_name) {
+    res.status(400).json({message: "must contain data to update!"})
+    return
+  }
+  Tag.create(req.body)
+    .then(data => {
+      res.status(200).json({message: `${req.body.tag_name} added!`})
+    }).catch(err => {
+      res.status(400).json(err);
+    })
 });
 
 router.put('/:id', (req, res) => {
